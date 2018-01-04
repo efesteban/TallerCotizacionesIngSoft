@@ -1,0 +1,116 @@
+@model Cotizaciones.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Rut" class="control-label"></label>
+                <input asp-for="Rut" class="form-control" />
+                <span asp-validation-for="Rut" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Paterno" class="control-label"></label>
+                <input asp-for="Paterno" class="form-control" />
+                <span asp-validation-for="Paterno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Materno" class="control-label"></label>
+                <input asp-for="Materno" class="form-control" />
+                <span asp-validation-for="Materno" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label" for="Perfil">Perfil</label><br> 
+                @Html.DropDownList("perfil",ViewBag.perfil as SelectList)    
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Contrase_a">Contrase&#xF1;a</label>
+                <input class="form-control" type="password" id="pass1">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Contrase&#xF1;a" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"> Vuelva a escribir su contraseña</label>
+                <input class="form-control" type="password" id="pass2" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" id="btnSubmit" onclick="javascript:onSubmitButtonClick(); return false;"  class="btn btn-default" value="Create" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script type="text/javascript" language="javascript">
+ function onSubmitButtonClick() 
+    {
+    
+        var persona = { rut: document.getElementById("Rut").value,
+        email: document.getElementById("Email").value,
+        nombre: document.getElementById("Nombre").value,
+        paterno: document.getElementById("Paterno").value,
+        materno: document.getElementById("Materno").value,
+        contraseña: document.getElementById("pass1").value,
+        perfil: document.getElementById("perfil").value
+        }
+
+        if (document.getElementById("pass1").value == document.getElementById("pass2").value) {
+            alert("Las dos claves son iguales...\nRealizaríamos las acciones del caso positivo"); 
+            
+            $.ajax({  
+                url: "@Url.Action("CrearAsync", "Usuario")",  
+                type: "POST",  
+                data: persona,  
+                success: function(result) {  
+                    var modelStatus = $('.model-status');  
+                    if (result) modelStatus.text("Estado: Enviado con éxito");  
+                    else modelStatus.text("Estado: Enviado con error. Compruebe que ha rellenado todos los campos");
+                    window.location = "@Url.Action("Index","Usuario")";
+                },  
+                error: function(jqXHR, textStatus, error) {  
+                    $('.model-status').text("Estado: Error inesperado");  
+                }  
+            });
+            
+        }
+      	
+   	    else {
+                alert("Las dos claves son distintas...\nRealizaríamos las acciones del caso negativo") 
+        }
+      	   
+   
+    }
+</script>

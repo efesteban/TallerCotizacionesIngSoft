@@ -1,0 +1,39 @@
+
+@{
+    ViewData["Title"] = "Inicio";
+    Persona persona = (Persona)ViewData["persona"];
+}
+
+<h2>@ViewData["Title"]</h2>
+
+Bienvenido a tu pagina inicial @persona.Nombre
+
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>Cotizaciones</h2>
+        <ul>
+            <a href='@Url.Action("Index", "Cotizacion")'>
+                <img class="center-block" src="/images/cotizacion.png" width=100% height=100%>    
+            </a>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2></h2>
+        <ul>
+            
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2></h2>
+        <ul>
+            
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2></h2>
+        <ul>
+            
+        </ul>
+    </div>
+</div>
